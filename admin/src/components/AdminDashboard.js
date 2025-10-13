@@ -1,186 +1,110 @@
-// AdminDashboard.js
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import React, { useState } from "react";
+import { Line, Pie } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend);
 
 const AdminDashboard = () => {
-  const [report, setReport] = useState({
-    students: 0,
-    teachers: 0,
-    departments: 0,
-    subjects: 0,
-  });
+  const navigate = useNavigate();
+  const [menuVisible, setMenuVisible] = useState(false);
 
-  useEffect(() => {
-    // Example API call
-    fetch("http://localhost:5005/admin/report")
-      .then((res) => res.json())
-      .then((data) => setReport(data))
-      .catch((err) => console.error("Error fetching report:", err));
-  }, []);
-
-  const downloadReport = () => {
-    const content =
-      "Quiz Admin Report\n\n" +
-      "Total Students: " + report.students + "\n" +
-      "Total Teachers: " + report.teachers + "\n" +
-      "Total Departments: " + report.departments + "\n" +
-      "Total Subjects: " + report.subjects + "\n" +
-      "Generated At: " + new Date().toLocaleString();
-
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "quiz_admin_report.txt";
-    link.click();
-  };
-
-  const statsData = [
-    { name: "Students", value: report.students },
-    { name: "Teachers", value: report.teachers },
-    { name: "Departments", value: report.departments },
-    { name: "Subjects", value: report.subjects },
+  const stats = [
+    { label: "Students", value: 120, color: "#4E73DF" },
+    { label: "Teachers", value: 15, color: "#1CC88A" },
+    { label: "Departments", value: 5, color: "#F6C23E" },
+    { label: "Subjects", value: 20, color: "#E74A3B" },
   ];
 
+  const menuItems = [
+    { label: "Dashboard", route: "/admin-dashboard" },
+    { label: "Departments", route: "/departments" },
+    { label: "Teachers", route: "/teachers" },
+    { label: "Subjects", route: "/subjects" },
+    { label: "Logout", route: "/admin-login" },
+  ];
+
+  const handleMenuClick = (item) => {
+    setMenuVisible(false);
+    if (item.label === "Logout") {
+      alert("Logged out!");
+      localStorage.removeItem("adminToken");
+    }
+    navigate(item.route);
+  };
+
+  const lineData = {
+    labels: stats.map((s) => s.label),
+    datasets: [
+      {
+        label: "Overview",
+        data: stats.map((s) => s.value),
+        borderColor: "#4E73DF",
+        tension: 0.4,
+        fill: false,
+      },
+    ],
+  };
+
+  const pieData = {
+    labels: stats.map((s) => s.label),
+    datasets: [{ data: stats.map((s) => s.value), backgroundColor: stats.map((s) => s.color) }],
+  };
+
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      {/* Sidebar */}
-      <div
-        style={{
-          width: "240px",
-          backgroundColor: "#1f2d3d",
-          padding: "30px 20px",
-          color: "white",
-        }}
-      >
-        <h2 style={{ color: "white", marginBottom: "40px" }}>Quiz Admin</h2>
-        <ul style={{ listStyle: "none", padding: 0, lineHeight: "2.2" }}>
-          <li>
-            <Link to="/admin/dashboard" style={linkStyle}>
-              📊 Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/manage-students" style={linkStyle}>
-              👨‍🎓 Student Management
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/manage-teachers" style={linkStyle}>
-              👨‍🏫 Teacher Management
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/manage-departments" style={linkStyle}>
-              🏢 Department Management
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/manage-subjects" style={linkStyle}>
-              📘 Subject Management
-            </Link>
-          </li>
-        </ul>
-        <button style={logoutButton}>Logout</button>
+    <div style={{ padding: 20, minHeight: "100vh", background: "#F5F7FA", fontFamily: "Arial" }}>
+      {/* Header */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+        <h2>Dashboard</h2>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <span style={{ marginRight: 10 }}>Admin</span>
+          <button onClick={() => setMenuVisible(!menuVisible)} style={{ fontSize: 20, cursor: "pointer" }}>☰</button>
+        </div>
       </div>
 
-      {/* Main Content */}
-      <div style={{ flex: 1, backgroundColor: "#f6f6f6", padding: "30px" }}>
-        <h2 style={{ marginBottom: "25px" }}>📊 Admin Dashboard</h2>
-
-        {/* Stats Cards */}
-        <div
-          style={{
-            display: "flex",
-            gap: "20px",
-            flexWrap: "wrap",
-            marginBottom: "30px",
-          }}
-        >
-          <div style={cardStyle}>
-            {" "}
-            <h4>Total Students</h4>
-            <p>{report.students}</p>{" "}
-          </div>
-          <div style={cardStyle}>
-            {" "}
-            <h4>Total Teachers</h4>
-            <p>{report.teachers}</p>{" "}
-          </div>
-          <div style={cardStyle}>
-            {" "}
-            <h4>Total Departments</h4>
-            <p>{report.departments}</p>{" "}
-          </div>
-          <div style={cardStyle}>
-            {" "}
-            <h4>Total Subjects</h4>
-            <p>{report.subjects}</p>{" "}
-          </div>
+      {/* Menu */}
+      {menuVisible && (
+        <div style={{ background: "#fff", padding: 10, borderRadius: 10, marginBottom: 20, boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}>
+          {menuItems.map((item) => (
+            <div key={item.label} onClick={() => handleMenuClick(item)} style={{ padding: 6, cursor: "pointer" }}>
+              {item.label}
+            </div>
+          ))}
         </div>
+      )}
 
-        {/* Graph */}
-        <div style={{ background: "#fff", padding: "20px", borderRadius: "10px" }}>
-          <h3 style={{ marginBottom: "20px" }}>Overview Chart</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={statsData}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="value" fill="#007bff" />
-            </BarChart>
-          </ResponsiveContainer>
+      {/* KPI Cards */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 25, justifyContent: "space-between" }}>
+        {stats.map((s) => (
+          <div key={s.label} style={{ flex: "1 1 200px", borderRadius: 12, padding: 15, color: "#fff", background: s.color }}>
+            <div>{s.label}</div>
+            <div style={{ fontSize: 20, fontWeight: "bold" }}>{s.value}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Charts */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
+        <div style={{ flex: "1 1 400px", background: "#fff", padding: 15, borderRadius: 12 }}>
+          <h3>Line Chart</h3>
+          <Line data={lineData} />
         </div>
-
-        {/* Download Button */}
-        <button
-          onClick={downloadReport}
-          style={{
-            marginTop: "30px",
-            padding: "10px 20px",
-            backgroundColor: "#dc3545",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          Download Report
-        </button>
+        <div style={{ flex: "1 1 400px", background: "#fff", padding: 15, borderRadius: 12 }}>
+          <h3>Pie Chart</h3>
+          <Pie data={pieData} />
+        </div>
       </div>
     </div>
   );
-};
-
-// Styles
-const cardStyle = {
-  background: "white",
-  flex: 1,
-  minWidth: "220px",
-  padding: "25px",
-  borderRadius: "10px",
-  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-  textAlign: "center",
-};
-
-const linkStyle = {
-  color: "white",
-  textDecoration: "none",
-  display: "block",
-  padding: "8px 0",
-};
-
-const logoutButton = {
-  marginTop: "40px",
-  padding: "10px 20px",
-  backgroundColor: "#e74c3c",
-  color: "white",
-  border: "none",
-  borderRadius: "5px",
-  cursor: "pointer",
-  width: "100%",
 };
 
 export default AdminDashboard;

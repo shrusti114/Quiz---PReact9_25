@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 const GooeyButton = styled(Button)(({ theme }) => ({
   position: "relative",
   display: "inline-block",
-  padding: "10px 25px",
-  fontSize: "16px",
+  padding: "12px 30px",
+  fontSize: "18px",
   fontWeight: "bold",
   borderRadius: "12px",
   color: "#fff",
@@ -55,6 +55,7 @@ function Home() {
         padding: 2,
       }}
     >
+      {/* Title */}
       <Typography
         variant="h2"
         sx={{
@@ -65,6 +66,7 @@ function Home() {
         🎯 Quiz App
       </Typography>
 
+      {/* Subtitle */}
       <Typography
         variant="h5"
         sx={{
@@ -75,14 +77,40 @@ function Home() {
         Test your knowledge and have fun!
       </Typography>
 
+      {/* Buttons */}
       <Box display="flex" gap={3} flexWrap="wrap">
-        <GooeyButton onClick={() => navigate("/dashboard")}>▶️ Student Dashboard</GooeyButton>
-        <GooeyButton onClick={() => navigate("/adminlogin")}>🛠 Admin Login</GooeyButton>
-        <GooeyButton onClick={() => navigate("/teacherlogin")}>👩‍🏫 Teacher Login</GooeyButton>
-        <GooeyButton onClick={() => navigate("/about")}>ℹ️ About</GooeyButton>
+        <GooeyButton onClick={() => navigate("/dashboard")}>▶️ Start Quiz</GooeyButton>
         <GooeyButton onClick={() => navigate("/contact")}>📞 Contact</GooeyButton>
       </Box>
 
+      {/* About Section */}
+      <Box
+        sx={{
+          marginTop: 5,
+          padding: 3,
+          maxWidth: "600px",
+          background: "rgba(255,255,255,0.1)",
+          borderRadius: "12px",
+          boxShadow: "0 5px 15px rgba(0,0,0,0.3)",
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{ color: "#fff", marginBottom: 2 }}
+        >
+          ℹ️ About
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{ color: "#eee", fontSize: "1.1rem", lineHeight: 1.6 }}
+        >
+          Welcome to our Quiz App! 🚀  
+          Challenge yourself with fun questions, track your progress,  
+          and enhance your knowledge while enjoying the game. 🎉
+        </Typography>
+      </Box>
+
+      {/* Background Animation */}
       <style>
         {`
           @keyframes gradientBG {
