@@ -1,21 +1,24 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // <-- react-router hook
+import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState(""); 
-  const [password, setPassword] = useState(""); 
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const schema = Yup.object().shape({
+    email: Yup.string().email("Invalid Email").required("Email is required"),
+    password: Yup.string().required("Password is required"),
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!email || !password) {
-      setMessage("Please enter email and password");
-      return;
-    }
-
     try {
+      await schema.validate({ email, password }, { abortEarly: false });
+
       const res = await fetch("http://localhost:5000/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -25,121 +28,119 @@ const AdminLogin = () => {
       const data = await res.json();
 
       if (res.ok) {
-        // ✅ Show alert
-        alert("✅ Login successful!");
-        localStorage.setItem("adminToken", "loggedin"); // demo token
-        // 🔹 redirect to AdminDashboard
-        navigate("/admin-dashboard");
+        toast.success("✅ Login Successful!", { position: "top-center" });
+        localStorage.setItem("adminToken", "loggedin");
+        setTimeout(() => navigate("/admin-dashboard"), 1500);
       } else {
-        setMessage("❌ " + data.message);
+        toast.error(data.message || "Login failed", { position: "top-center" });
       }
     } catch (err) {
-      console.error(err);
-      setMessage("❌ Server error. Try again later.");
+      if (err.name === "ValidationError") {
+        toast.error(err.errors.join("\n"), { position: "top-center" });
+      } else {
+        toast.error("Server error. Try again later.", { position: "top-center" });
+      }
     }
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.loginBox}>
-        <h2 style={styles.title}>Admin Login</h2>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <label style={styles.label}>Email</label>
+    <div className="login-container">
+      <ToastContainer />
+      <div className="login-box">
+        <h2 className="login-title">Admin Portal</h2>
+        <form onSubmit={handleSubmit} className="login-form">
+          <label>Email</label>
           <input
             type="email"
             placeholder="Enter Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
           />
-
-          <label style={styles.label}>Password</label>
+          <label>Password</label>
           <input
             type="password"
             placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
           />
-
-          <button type="submit" style={styles.button}>
+          <button type="submit" className="login-btn">
             Login
           </button>
         </form>
-
-        {message && <p style={styles.message}>{message}</p>}
       </div>
+
+      <style>{`
+        body {
+          margin: 0;
+          font-family: 'Poppins', sans-serif;
+        }
+        .login-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background: linear-gradient(135deg, #000000 0%, #1b1b1b 40%, #2b2b2b 100%);
+        }
+        .login-box {
+          background: rgba(20, 20, 20, 0.95);
+          padding: 50px 40px;
+          border-radius: 20px;
+          box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
+          width: 360px;
+          text-align: center;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .login-title {
+          font-size: 28px;
+          font-weight: 700;
+          color: #00e0ff;
+          margin-bottom: 25px;
+          text-shadow: 0 0 10px rgba(0, 224, 255, 0.5);
+        }
+        .login-form {
+          display: flex;
+          flex-direction: column;
+        }
+        .login-form label {
+          text-align: left;
+          color: #aaa;
+          margin-bottom: 8px;
+          font-size: 14px;
+        }
+        .login-form input {
+          background: #111;
+          color: #fff;
+          border: 1px solid #333;
+          padding: 12px;
+          border-radius: 8px;
+          margin-bottom: 18px;
+          font-size: 14px;
+          transition: 0.3s;
+        }
+        .login-form input:focus {
+          outline: none;
+          border-color: #00e0ff;
+          box-shadow: 0 0 8px rgba(0, 224, 255, 0.5);
+        }
+        .login-btn {
+          background: linear-gradient(135deg, #00e0ff, #0078ff);
+          color: #fff;
+          padding: 12px;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: 600;
+          box-shadow: 0 0 15px rgba(0, 224, 255, 0.3);
+          transition: all 0.3s ease;
+        }
+        .login-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 0 20px rgba(0, 224, 255, 0.5);
+        }
+      `}</style>
     </div>
   );
-};
-
-// Inline CSS
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    background: "radial-gradient(circle at center, #1e1e1e, #000)",
-    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-    margin: 0,
-  },
-  loginBox: {
-    backgroundColor: "#111",
-    padding: "40px 30px",
-    borderRadius: "16px",
-    boxShadow: "0 0 20px rgba(255, 255, 255, 0.1)",
-    width: "350px",
-    maxWidth: "90%",
-    textAlign: "center",
-    color: "#fff",
-  },
-  title: {
-    fontSize: "28px",
-    fontWeight: "bold",
-    color: "#00bcd4",
-    marginBottom: "25px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  label: {
-    textAlign: "left",
-    marginBottom: "8px",
-    color: "#ccc",
-    fontWeight: 500,
-    fontSize: "14px",
-  },
-  input: {
-    padding: "12px",
-    marginBottom: "18px",
-    border: "none",
-    borderRadius: "8px",
-    background: "#222",
-    color: "#fff",
-    outline: "none",
-    fontSize: "14px",
-    transition: "all 0.3s ease",
-  },
-  button: {
-    background: "#00bcd4",
-    color: "#fff",
-    padding: "12px",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontSize: "16px",
-    fontWeight: 500,
-    transition: "background 0.3s ease",
-  },
-  message: {
-    marginTop: "15px",
-    fontWeight: 500,
-    fontSize: "14px",
-    color: "#ff5555",
-    textAlign: "center",
-  },
 };
 
 export default AdminLogin;

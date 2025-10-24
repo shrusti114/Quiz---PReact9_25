@@ -1,36 +1,22 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard";
 import DepartmentManagement from "./components/DepartmentManagement";
+import SubjectManagement from "./components/SubjectManagement";
+import TeacherManagement from "./components/TeacherManagement"; // import Teacher component
 
 function App() {
-  // Check if admin is logged in (demo: using localStorage)
-  const isAdminLoggedIn = localStorage.getItem("adminToken") === "loggedin";
-
   return (
-    <Routes>
-      <Route path="/" element={<AdminLogin />} />
-      
-      {/* Protected Admin Dashboard */}
-      <Route
-        path="/admin-dashboard"
-        element={
-          isAdminLoggedIn ? <AdminDashboard /> : <Navigate to="/" />
-        }
-      />
-
-      {/* Departments Page */}
-      <Route
-        path="/departments"
-        element={
-          isAdminLoggedIn ? <DepartmentManagement /> : <Navigate to="/" />
-        }
-      />
-
-      {/* Fallback for unmatched routes */}
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+    <Router>
+      <Routes>
+        <Route path="/" element={<AdminLogin />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/departments" element={<DepartmentManagement />} />
+        <Route path="/subjects" element={<SubjectManagement />} />
+        <Route path="/teachers" element={<TeacherManagement />} /> {/* <-- Add this */}
+      </Routes>
+    </Router>
   );
 }
 

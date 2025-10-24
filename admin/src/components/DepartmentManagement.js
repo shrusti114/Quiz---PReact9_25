@@ -1,154 +1,262 @@
-// DepartmentManagement.js
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchDepartments,
-  addDepartment,
-  updateDepartment,
-  deleteDepartment,
-} from "../redux/slices/departmentSlice";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DepartmentManagement = () => {
-  const dispatch = useDispatch();
-  const { list, loading } = useSelector((s) => s.departments);
-  const [departmentId, setDepartmentId] = useState("");
-  const [departmentName, setDepartmentName] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
+  const [departments, setDepartments] = useState([]);
+  const [newDepartment, setNewDepartment] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [editId, setEditId] = useState(null);
+  const [editName, setEditName] = useState("");
 
   useEffect(() => {
-    dispatch(fetchDepartments());
-  }, [dispatch]);
+    fetchDepartments();
+  }, []);
 
-  useEffect(() => {
-    // Auto-generate department ID if not editing
-    if (editIndex === null && list.length > 0) {
-      const lastDept = list[list.length - 1];
-      const lastNum = parseInt(lastDept.department_id.slice(1)) || 0;
-      setDepartmentId("D" + String(lastNum + 1).padStart(3, "0"));
-    } else if (editIndex === null && list.length === 0) {
-      setDepartmentId("D001");
+  const fetchDepartments = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/departments/display");
+      setDepartments(res.data);
+    } catch {
+      toast.error("❌ Failed to fetch departments");
     }
-  }, [list, editIndex]);
+  };
 
-  const handleSave = () => {
-    if (!departmentName.trim()) return;
+  const generateDepartmentId = () => {
+    if (departments.length === 0) return "D001";
+    const lastDept = departments[departments.length - 1];
+    const lastNum = parseInt(lastDept.department_id.slice(1)) || 0;
+    return "D" + String(lastNum + 1).padStart(3, "0");
+  };
 
-    const payload = { department_id: departmentId, department_name: departmentName };
+  const handleAddOrUpdate = async () => {
+    if (!newDepartment.trim() && !editName.trim()) return;
 
-    if (editIndex !== null) {
-      dispatch(updateDepartment(payload));
-      setEditIndex(null);
+    if (editId) {
+      try {
+        await axios.put("http://localhost:5000/departments/update", {
+          department_id: editId,
+          department_name: editName,
+        });
+        setEditId(null);
+        setEditName("");
+        fetchDepartments();
+        toast.success("✅ Department updated successfully");
+      } catch {
+        toast.error("❌ Failed to update department");
+      }
     } else {
-      dispatch(addDepartment({ department_name: departmentName }));
+      try {
+        const department_id = generateDepartmentId();
+        await axios.post("http://localhost:5000/departments/insert", {
+          department_id,
+          department_name: newDepartment,
+        });
+        setNewDepartment("");
+        fetchDepartments();
+        toast.success("✅ Department added successfully");
+      } catch {
+        toast.error("❌ Failed to add department");
+      }
     }
-
-    setDepartmentName("");
   };
 
-  const handleEdit = (index) => {
-    const dept = list[index];
-    setDepartmentId(dept.department_id);
-    setDepartmentName(dept.department_name);
-    setEditIndex(index);
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/departments/delete?id=${id}`);
+      fetchDepartments();
+      toast.info("🗑️ Department deleted");
+    } catch {
+      toast.error("❌ Failed to delete department");
+    }
   };
 
-  const handleDelete = (index) => {
-    const dept = list[index];
-    dispatch(deleteDepartment(dept.department_id));
+  const handleEdit = (dept) => {
+    setEditId(dept.department_id);
+    setEditName(dept.department_name);
   };
 
-  const filteredList = list.filter((dept) =>
+  const filteredDepartments = departments.filter((dept) =>
     dept.department_name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>Department Management</h2>
+      <ToastContainer position="top-right" autoClose={2500} />
+      <h1 style={styles.title}>Department Management</h1>
 
-      <div style={styles.inputContainer}>
-        <input
-          style={styles.input}
-          value={departmentId}
-          readOnly
-          placeholder="Department ID (Auto)"
-        />
-        <input
-          style={styles.input}
-          value={departmentName}
-          onChange={(e) => setDepartmentName(e.target.value)}
-          placeholder="Department Name"
-        />
-        <button style={styles.saveButton} onClick={handleSave}>
-          {editIndex !== null ? "Update" : "Add"}
-        </button>
-      </div>
+      <InputSection
+        editId={editId}
+        editName={editName}
+        setEditName={setEditName}
+        newDepartment={newDepartment}
+        setNewDepartment={setNewDepartment}
+        handleAddOrUpdate={handleAddOrUpdate}
+        searchText={searchText}
+        setSearchText={setSearchText}
+      />
 
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <input
-          style={{ ...styles.input, width: "300px" }}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          placeholder="Search by Department Name..."
-        />
-      </div>
-
-      {loading ? (
-        <p style={styles.loading}>Loading departments...</p>
-      ) : (
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th style={styles.th}>Department ID</th>
-              <th style={styles.th}>Department Name</th>
-              <th style={styles.th}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredList.map((dept, idx) => (
-              <tr key={dept.department_id} style={styles.tr}>
-                <td style={styles.td}>{dept.department_id}</td>
-                <td style={styles.td}>{dept.department_name}</td>
-                <td style={styles.td}>
-                  <button style={styles.editButton} onClick={() => handleEdit(idx)}>
-                    Edit
-                  </button>
-                  <button style={styles.deleteButton} onClick={() => handleDelete(idx)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <DepartmentTable
+        departments={filteredDepartments}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 };
 
-// Styles
+const InputSection = ({
+  editId,
+  editName,
+  setEditName,
+  newDepartment,
+  setNewDepartment,
+  handleAddOrUpdate,
+  searchText,
+  setSearchText,
+}) => {
+  return (
+    <>
+      <div style={styles.inputContainer}>
+        <input
+          type="text"
+          placeholder="Enter Department Name"
+          value={editId ? editName : newDepartment}
+          onChange={(e) =>
+            editId ? setEditName(e.target.value) : setNewDepartment(e.target.value)
+          }
+          style={styles.input}
+        />
+        <button onClick={handleAddOrUpdate} style={styles.addButton}>
+          {editId ? "Update" : "Add Department"}
+        </button>
+      </div>
+
+      <div style={{ ...styles.inputContainer, justifyContent: "center" }}>
+        <input
+          type="text"
+          placeholder="Search by Name..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          style={{ ...styles.input, width: "350px" }}
+        />
+      </div>
+    </>
+  );
+};
+
+const DepartmentTable = ({ departments, handleEdit, handleDelete }) => {
+  return (
+    <div style={styles.tableWrapper}>
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th style={styles.th}>Sr No.</th>
+            <th style={styles.th}>Department Name</th>
+            <th style={styles.th}>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {departments.map((dept, index) => (
+            <tr key={dept.department_id}>
+              <td style={styles.td}>{index + 1}</td>
+              <td style={styles.td}>{dept.department_name}</td>
+              <td style={styles.td}>
+                <button style={styles.tdButton} onClick={() => handleEdit(dept)}>
+                  Edit
+                </button>
+                <button style={styles.tdButton} onClick={() => handleDelete(dept.department_id)}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 const styles = {
   container: {
-    maxWidth: "900px",
-    margin: "40px auto",
-    padding: "25px",
-    backgroundColor: "#1f1f2e",
-    color: "#f0f0f0",
-    borderRadius: "16px",
-    boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #0f0f1a, #1e1e2f, #2c2c3e)",
+    padding: "40px",
+    fontFamily: "'Poppins', sans-serif",
+    color: "#fff",
   },
-  title: { textAlign: "center", color: "#00d4ff", marginBottom: "30px", fontSize: "28px", fontWeight: "700" },
-  inputContainer: { display: "flex", justifyContent: "center", marginBottom: "25px", gap: "10px" },
-  input: { padding: "12px", width: "180px", borderRadius: "10px", border: "1px solid #444", outline: "none", backgroundColor: "#2a2a3c", color: "#fff", fontSize: "15px" },
-  saveButton: { padding: "12px 22px", border: "none", borderRadius: "10px", backgroundColor: "#00d4ff", color: "#1f1f2e", cursor: "pointer", fontWeight: "600", fontSize: "15px" },
-  loading: { textAlign: "center", color: "#bbb", fontSize: "16px" },
-  table: { width: "100%", borderCollapse: "collapse", textAlign: "left" },
-  th: { padding: "14px", backgroundColor: "#2a2a3c", color: "#00d4ff", fontWeight: "600", borderBottom: "2px solid #444" },
-  td: { padding: "12px", borderBottom: "1px solid #444" },
-  tr: { transition: "background 0.3s" },
-  editButton: { marginRight: "8px", padding: "6px 14px", border: "none", borderRadius: "8px", backgroundColor: "#00d4ff", color: "#1f1f2e", cursor: "pointer", fontWeight: "500" },
-  deleteButton: { padding: "6px 14px", border: "none", borderRadius: "8px", backgroundColor: "#ff4b5c", color: "#fff", cursor: "pointer", fontWeight: "500" },
+  title: {
+    textAlign: "center",
+    fontSize: "32px",
+    color: "#00bcd4",
+    marginBottom: "30px",
+    fontWeight: "bold",
+  },
+  inputContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "10px",
+    marginBottom: "20px",
+  },
+  input: {
+    width: "300px",
+    padding: "12px",
+    borderRadius: "8px",
+    border: "none",
+    outline: "none",
+    fontSize: "16px",
+    background: "#222",
+    color: "#fff",
+  },
+  addButton: {
+    padding: "12px 20px",
+    background: "linear-gradient(90deg, #00bcd4, #0097a7)",
+    border: "none",
+    borderRadius: "8px",
+    color: "#fff",
+    fontWeight: "bold",
+    cursor: "pointer",
+    transition: "transform 0.2s, box-shadow 0.2s",
+  },
+  tableWrapper: {
+    overflowX: "auto",
+    marginTop: "20px",
+  },
+  table: {
+    width: "80%",
+    margin: "auto",
+    borderCollapse: "separate",
+    borderSpacing: "0 10px",
+    fontSize: "16px",
+  },
+  th: {
+    background: "linear-gradient(90deg, #00bcd4, #0097a7)",
+    color: "#fff",
+    padding: "12px",
+    textAlign: "center",
+    fontWeight: "700",
+    borderRadius: "8px",
+  },
+  td: {
+    background: "#1e1e2f",
+    color: "#fff",
+    padding: "12px",
+    textAlign: "center",
+    borderRadius: "8px",
+    boxShadow: "0 2px 5px rgba(0,0,0,0.3)",
+  },
+  tdButton: {
+    background: "linear-gradient(90deg, #ff5252, #ff1744)",
+    color: "#fff",
+    padding: "6px 14px",
+    margin: "0 5px",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "500",
+    transition: "transform 0.2s, box-shadow 0.2s",
+  },
 };
 
 export default DepartmentManagement;
