@@ -2,117 +2,98 @@ const http = require("http");
 const { MongoClient } = require("mongodb");
 
 const url = "mongodb://127.0.0.1:27017";
-const client = new MongoClient(url);
-
-const dbName = "Quiz"; // Database name
+const dbName = "Quiz"; // ✅ Database name
 let db;
 
 // Connect to MongoDB
-async function connectDB() {
-  try {
-    await client.connect();
+MongoClient.connect(url)
+  .then((client) => {
     db = client.db(dbName);
-    console.log("✅ Connected to MongoDB");
-  } catch (err) {
-    console.error("❌ MongoDB connection failed:", err);
-  }
-}
-connectDB();
+    console.log("✅ MongoDB connected successfully!");
+    startServer();
+  })
+  .catch((err) => console.error("❌ MongoDB connection failed:", err));
 
-const server = http.createServer(async (req, res) => {
-  // CORS headers
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  if (req.method === "OPTIONS") {
-    res.writeHead(204);
-    res.end();
-    return;
-  }
-
-  // Register Student
-  if (req.url === "/api/students" && req.method === "POST") {
-    let body = "";
-    req.on("data", chunk => (body += chunk.toString()));
-    req.on("end", async () => {
-      try {
-        const data = JSON.parse(body);
-        const result = await db.collection("Users").insertOne(data);
-        res.writeHead(201, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ success: true, id: result.insertedId }));
-      } catch (err) {
-        res.writeHead(500, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ success: false, error: err.message }));
-      }
-    });
-
-  // Check if student exists by email
-  } else if (req.url.startsWith("/api/students") && req.method === "GET") {
-    try {
-      const urlObj = new URL(req.url, `http://${req.headers.host}`);
-      const email = urlObj.searchParams.get("email");
-
-      if (!email) {
-        res.writeHead(400, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ success: false, error: "Email query param required" }));
-        return;
-      }
-
-      const student = await db.collection("Users").findOne({ email });
-
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ exists: !!student, student: student || null }));
-    } catch (err) {
-      res.writeHead(500, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ success: false, error: err.message }));
+function startServer() {
+  const server = http.createServer(async (req, res) => {
+    // ✅ Enable CORS
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    if (req.method === "OPTIONS") {
+      res.writeHead(204);
+      res.end();
+      return;
     }
 
-  // Login Student (returns studentId, name, email)
-  } else if (req.url === "/api/students/login" && req.method === "POST") {
-    let body = "";
-    req.on("data", chunk => (body += chunk.toString()));
-    req.on("end", async () => {
-      try {
-        const { email, password } = JSON.parse(body);
+    // ✅ Route 1: Insert user (Registration)
+    if (req.url === "/Users/insert" && req.method === "POST") {
+      let body = "";
+      req.on("data", (chunk) => (body += chunk.toString()));
 
-        if (!email || !password) {
-          res.writeHead(400, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ success: false, error: "Email and password are required" }));
-          return;
-        }
+      req.on("end", async () => {
+        try {
+          const userData = JSON.parse(body);
+          const collection = db.collection("Users");
 
-        const student = await db.collection("Users").findOne({ email, password });
+          // Get next studentId (auto-increment)
+          const count = await collection.countDocuments();
+          const nextId = count + 1;
 
-        if (student) {
+          const newUser = {
+            studentId: nextId,
+            username: userData.username,
+            email: userData.email,
+            collegeName: userData.collegeName,
+            degree: userData.degree,
+            password: userData.password,
+          };
+
+          await collection.insertOne(newUser);
+
           res.writeHead(200, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({
-            success: true,
-            message: "Login successful",
-            student: {
-              studentId: student._id,
-              studentName: student.student,
-              email: student.email
-            }
-          }));
-        } else {
-          res.writeHead(401, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ success: false, error: "Invalid credentials" }));
+          res.end(JSON.stringify({ message: "Registration successful", studentId: nextId }));
+        } catch (err) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ message: "Error registering user", error: err.message }));
         }
+      });
+    }
 
-      } catch (err) {
-        res.writeHead(500, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ success: false, error: err.message }));
-      }
-    });
+    // ✅ Route 2: Login user
+    else if (req.url === "/Users/login" && req.method === "POST") {
+      let body = "";
+      req.on("data", (chunk) => (body += chunk.toString()));
 
-  // Route not found
-  } else {
-    res.writeHead(404, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: "Route not found" }));
-  }
-});
+      req.on("end", async () => {
+        try {
+          const { email, password } = JSON.parse(body);
+          const user = await db.collection("Users").findOne({ email, password });
 
-server.listen(5000, () => {
-  console.log("🚀 Server running on http://localhost:5000");
-});
+          if (user) {
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ message: "Login successful" }));
+          } else {
+            res.writeHead(401, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ message: "Invalid email or password" }));
+          }
+        } catch (err) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ message: "Error logging in", error: err.message }));
+        }
+      });
+    }
+
+    // ✅ Default Route
+    else {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Route not found" }));
+    }
+  });
+
+  // ✅ Start server
+  const PORT = 5000;
+  server.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  });
+}

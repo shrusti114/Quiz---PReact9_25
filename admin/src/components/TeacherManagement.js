@@ -1,158 +1,312 @@
-// src/components/TeacherManagement.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import * as yup from "yup";
 
-const TeacherManagement = () => {
+const teacherSchema = yup.object().shape({
+  teacherName: yup.string().required("Teacher name is required"),
+  teacherEmail: yup.string().email().required("Email is required"),
+  teacherPassword: yup.string().required("Password is required"),
+  department_id: yup.string().required("Department is required"),
+});
+
+const TeacherRegister = () => {
+  const [departments, setDepartments] = useState([]);
   const [teachers, setTeachers] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [form, setForm] = useState({
-    teacher_name: "",
-    password: "",
-    subject_id: "",
-    department_name: "",
-  });
+  const [teacherName, setTeacherName] = useState("");
+  const [teacherEmail, setTeacherEmail] = useState("");
+  const [teacherPassword, setTeacherPassword] = useState("");
+  const [selectedDept, setSelectedDept] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [editId, setEditId] = useState(null);
 
-  // Fetch teachers from MongoDB
-  const fetchTeachers = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/teachers");
-      setTeachers(res.data);
-    } catch (err) {
-      console.error("Error fetching teachers:", err);
-      toast.error("❌ Failed to fetch teachers");
-    }
-  };
-
-  // Fetch subjects for dropdown
-  const fetchSubjects = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/subjects/display");
-      setSubjects(res.data);
-    } catch (err) {
-      console.error("Error fetching subjects:", err);
-      toast.error("❌ Failed to fetch subjects");
-    }
-  };
-
   useEffect(() => {
+    fetchDepartments();
     fetchTeachers();
-    fetchSubjects();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    let newForm = { ...form, [name]: value };
-
-    // Auto-fill department based on selected subject
-    if (name === "subject_id") {
-      const subj = subjects.find((s) => s.subject_id === value);
-      newForm.department_name = subj ? subj.department_name : "";
+  const fetchDepartments = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/departments/display");
+      setDepartments(res.data);
+    } catch {
+      toast.error("Failed to fetch departments");
     }
-
-    setForm(newForm);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const fetchTeachers = async () => {
     try {
+      const res = await axios.get("http://localhost:5000/teachers/display");
+      setTeachers(res.data);
+    } catch {
+      toast.error("Failed to fetch teachers");
+    }
+  };
+
+  const handleAddOrUpdate = async () => {
+    try {
+      await teacherSchema.validate(
+        {
+          teacherName,
+          teacherEmail,
+          teacherPassword,
+          department_id: selectedDept,
+        },
+        { abortEarly: false }
+      );
+
       if (editId) {
-        await axios.put(`http://localhost:5000/api/teachers/update`, { ...form, teacher_id: editId });
-        toast.success("✅ Teacher updated successfully");
+        await axios.put("http://localhost:5000/teachers/update", {
+          teacher_id: editId,
+          teacherName,
+          teacherEmail,
+          teacherPassword,
+          department_id: selectedDept,
+        });
+        toast.success("Teacher updated successfully");
       } else {
-        await axios.post(`http://localhost:5000/api/teachers/insert`, form);
-        toast.success("✅ Teacher added successfully");
+        await axios.post("http://localhost:5000/teachers/insert", {
+          teacherName,
+          teacherEmail,
+          teacherPassword,
+          department_id: selectedDept,
+        });
+        toast.success("Teacher registered successfully");
       }
-      setForm({ teacher_name: "", password: "", subject_id: "", department_name: "" });
+
       setEditId(null);
+      setTeacherName("");
+      setTeacherEmail("");
+      setTeacherPassword("");
+      setSelectedDept("");
       fetchTeachers();
     } catch (err) {
-      console.error("Error saving teacher:", err);
-      toast.error("❌ Failed to save teacher");
+      if (err.inner) err.inner.forEach((e) => toast.warning(e.message));
+      else toast.error("Failed to save teacher");
     }
-  };
-
-  const handleEdit = (t) => {
-    setEditId(t.teacher_id);
-    setForm({
-      teacher_name: t.teacher_name,
-      password: t.password,
-      subject_id: t.subject_id,
-      department_name: t.department_name,
-    });
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this teacher?")) return;
-    try {
-      await axios.delete(`http://localhost:5000/api/teachers/delete?id=${id}`);
-      toast.info("🗑️ Teacher deleted successfully");
-      fetchTeachers();
-    } catch (err) {
-      console.error("Error deleting teacher:", err);
-      toast.error("❌ Failed to delete teacher");
-    }
+    await axios.delete(`http://localhost:5000/teachers/delete?id=${id}`);
+    toast.info("Teacher deleted");
+    fetchTeachers();
   };
 
-  // CSS in JS
-  const styles = {
-    container: { maxWidth: "900px", margin: "20px auto", padding: "20px", background: "#2e2e4f", color: "white", borderRadius: "12px", fontFamily: "Poppins, sans-serif" },
-    title: { textAlign: "center", color: "#00e0ff", marginBottom: "20px" },
-    form: { display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "space-between", marginBottom: "20px" },
-    input: { flex: "1 1 200px", padding: "10px", borderRadius: "6px", border: "none", fontSize: "16px" },
-    readonly: { background: "#555" },
-    button: { padding: "10px 20px", background: "#00bfff", border: "none", borderRadius: "6px", color: "white", fontSize: "16px", cursor: "pointer" },
-    table: { width: "100%", borderCollapse: "collapse" },
-    th: { border: "1px solid #555", padding: "10px", textAlign: "left", background: "#1c1c2f", color: "#00e0ff" },
-    td: { border: "1px solid #555", padding: "10px", textAlign: "left" },
-    editButton: { marginRight: "5px", padding: "5px 10px", border: "none", borderRadius: "6px", cursor: "pointer", background: "#1cc88a", color: "white" },
-    deleteButton: { padding: "5px 10px", border: "none", borderRadius: "6px", cursor: "pointer", background: "#e74a3b", color: "white" },
+  const handleEdit = (teacher) => {
+    setEditId(teacher.teacher_id);
+    setTeacherName(teacher.teacherName);
+    setTeacherEmail(teacher.teacherEmail);
+    setTeacherPassword(teacher.teacherPassword);
+    setSelectedDept(teacher.department_id);
   };
+
+  const filteredTeachers = teachers.filter((t, index) => {
+    const srNo = String(index + 1);
+    return (
+      t.teacherName.toLowerCase().includes(searchText.toLowerCase()) ||
+      t.teacherEmail.toLowerCase().includes(searchText.toLowerCase()) ||
+      srNo.includes(searchText)
+    );
+  });
 
   return (
     <div style={styles.container}>
       <ToastContainer position="top-right" autoClose={2500} />
-      <h2 style={styles.title}>Teacher Management</h2>
-      <form style={styles.form} onSubmit={handleSubmit}>
-        <input type="text" name="teacher_name" placeholder="Teacher Name" value={form.teacher_name} onChange={handleChange} required style={styles.input} />
-        <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required style={styles.input} />
-        <select name="subject_id" value={form.subject_id} onChange={handleChange} required style={styles.input}>
-          <option value="">Select Subject</option>
-          {subjects.map((s) => <option key={s.subject_id} value={s.subject_id}>{s.subject_name}</option>)}
-        </select>
-        <input type="text" value={form.department_name} placeholder="Department" readOnly style={{ ...styles.input, ...styles.readonly }} />
-        <button type="submit" style={styles.button}>{editId ? "Update Teacher" : "Add Teacher"}</button>
-      </form>
+      <h1 style={styles.title}>Teacher Register</h1>
 
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.th}>Teacher ID</th>
-            <th style={styles.th}>Name</th>
-            <th style={styles.th}>Subject</th>
-            <th style={styles.th}>Department</th>
-            <th style={styles.th}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teachers.map((t) => (
-            <tr key={t.teacher_id}>
-              <td style={styles.td}>{t.teacher_id}</td>
-              <td style={styles.td}>{t.teacher_name}</td>
-              <td style={styles.td}>{subjects.find((s) => s.subject_id === t.subject_id)?.subject_name}</td>
-              <td style={styles.td}>{t.department_name}</td>
-              <td style={styles.td}>
-                <button style={styles.editButton} onClick={() => handleEdit(t)}>Edit</button>
-                <button style={styles.deleteButton} onClick={() => handleDelete(t.teacher_id)}>Delete</button>
-              </td>
-            </tr>
+      <div style={styles.inputContainer}>
+        <input
+          placeholder="Teacher Name"
+          value={teacherName}
+          onChange={(e) => setTeacherName(e.target.value)}
+          style={styles.input}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={teacherEmail}
+          onChange={(e) => setTeacherEmail(e.target.value)}
+          style={styles.input}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={teacherPassword}
+          onChange={(e) => setTeacherPassword(e.target.value)}
+          style={styles.input}
+        />
+        <select
+          value={selectedDept}
+          onChange={(e) => setSelectedDept(e.target.value)}
+          style={styles.select}
+        >
+          <option value="">Select Department</option>
+          {departments.map((d) => (
+            <option key={d.department_id} value={d.department_id}>
+              {d.department_name}
+            </option>
           ))}
-        </tbody>
-      </table>
+        </select>
+        <button onClick={handleAddOrUpdate} style={styles.addButton}>
+          {editId ? "Update" : "Register"}
+        </button>
+      </div>
+
+      <div style={styles.inputContainer}>
+        <input
+          placeholder="Search..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          style={{ ...styles.input, width: "300px" }}
+        />
+      </div>
+
+      <div style={styles.tableWrapper}>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>Sr No.</th>
+              <th style={styles.th}>Name</th>
+              <th style={styles.th}>Email</th>
+              <th style={styles.th}>Department</th>
+              <th style={styles.th}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredTeachers.map((t, i) => (
+              <tr key={t.teacher_id} style={styles.tr}>
+                <td style={styles.td}>{i + 1}</td>
+                <td style={styles.td}>{t.teacherName}</td>
+                <td style={styles.td}>{t.teacherEmail}</td>
+                <td style={styles.td}>
+                  {departments.find((d) => d.department_id === t.department_id)
+                    ?.department_name || "-"}
+                </td>
+                <td style={styles.td}>
+                  <button style={styles.editBtn} onClick={() => handleEdit(t)}>
+                    Edit
+                  </button>
+                  <button
+                    style={styles.deleteBtn}
+                    onClick={() => handleDelete(t.teacher_id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default TeacherManagement;
+const styles = {
+  container: {
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #0f0f1a, #1e1e2f, #2c2c3e)",
+    padding: "40px",
+    fontFamily: "'Poppins', sans-serif",
+    color: "#fff",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: "32px",
+    color: "#00bcd4",
+    marginBottom: "30px",
+    fontWeight: "bold",
+  },
+  inputContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "10px",
+    marginBottom: "20px",
+    flexWrap: "wrap",
+  },
+  select: {
+    padding: "12px",
+    borderRadius: "8px",
+    border: "none",
+    outline: "none",
+    background: "#222",
+    color: "#fff",
+    fontSize: "16px",
+  },
+  input: {
+    width: "200px",
+    padding: "12px",
+    borderRadius: "8px",
+    border: "none",
+    outline: "none",
+    fontSize: "16px",
+    background: "#222",
+    color: "#fff",
+  },
+  addButton: {
+    padding: "12px 20px",
+    background: "linear-gradient(90deg, #00bcd4, #0097a7)",
+    border: "none",
+    borderRadius: "8px",
+    color: "#fff",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+  tableWrapper: {
+    overflowX: "auto",
+    marginTop: "30px",
+  },
+
+  // ✅ Updated spacing between columns and rows
+  table: {
+    width: "90%",
+    margin: "auto",
+    borderCollapse: "separate",
+    borderSpacing: "20px 15px", // <== space between columns (20px) and rows (15px)
+    textAlign: "center",
+  },
+
+  th: {
+    background: "linear-gradient(90deg, #00bcd4, #0097a7)",
+    color: "#fff",
+    padding: "15px",
+    textAlign: "center",
+    fontSize: "18px",
+    borderRadius: "10px",
+  },
+  tr: {
+    transition: "transform 0.2s ease, background 0.2s ease",
+  },
+  td: {
+    background: "#1e1e2f",
+    color: "#fff",
+    padding: "16px 25px", // ✅ extra padding for inner spacing
+    textAlign: "center",
+    fontSize: "16px",
+    borderRadius: "10px",
+    boxShadow: "0 3px 8px rgba(0,0,0,0.4)",
+  },
+  editBtn: {
+    background: "linear-gradient(90deg, #4caf50, #388e3c)",
+    color: "#fff",
+    padding: "6px 14px",
+    margin: "0 5px",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "500",
+  },
+  deleteBtn: {
+    background: "linear-gradient(90deg, #ff5252, #ff1744)",
+    color: "#fff",
+    padding: "6px 14px",
+    margin: "0 5px",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "500",
+  },
+};
+
+export default TeacherRegister;
