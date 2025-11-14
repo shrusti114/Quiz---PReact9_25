@@ -10,7 +10,6 @@ const Home = () => {
         <div className="logo">QuizMaster</div>
         <ul className="nav-links">
           <li><a href="#about">About</a></li>
-          <li><a href="#quiz">Quiz</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><Link to="/register" className="btn-nav">Register</Link></li>
           <li><Link to="/login" className="btn-nav">Login</Link></li>
@@ -24,7 +23,6 @@ const Home = () => {
         <div className="hero-buttons">
           <Link to="/register" className="btn">Register</Link>
           <Link to="/login" className="btn">Login</Link>
-          <Link to="/quizpage" className="btn start-btn">Start Quiz</Link>
         </div>
       </section>
 
@@ -40,21 +38,6 @@ const Home = () => {
         </div>
         <div className="about-image">
           <img src="https://source.unsplash.com/400x300/?learning,books" alt="About Illustration" />
-        </div>
-      </section>
-
-      {/* Quiz Section */}
-      <section className="quiz-section" id="quiz">
-        <div className="quiz-text">
-          <h2>Take a Quiz</h2>
-          <p>
-            Ready to test your skills? Select a quiz and start challenging yourself today.  
-            Improve your knowledge, learn new concepts, and have fun along the way!
-          </p>
-          <Link to="/quizpage" className="btn start-btn">Start Quiz Now</Link>
-        </div>
-        <div className="quiz-image">
-          <img src="https://source.unsplash.com/400x300/?quiz,challenge" alt="Quiz Illustration" />
         </div>
       </section>
 
@@ -83,7 +66,6 @@ const Home = () => {
         <p>&copy; 2025 QuizMaster. All rights reserved.</p>
         <div className="footer-links">
           <a href="#about">About</a>
-          <a href="#quiz">Quiz</a>
           <a href="#contact">Contact</a>
         </div>
       </footer>
@@ -166,16 +148,14 @@ const Home = () => {
         .btn:hover { background-color: #e6c200; transform: scale(1.08); box-shadow: 0 8px 25px rgba(255,215,0,0.6); }
 
         /* Sections */
-        .about-section, .quiz-section, .contact-section { display: flex; align-items: center; justify-content: center; gap: 50px; padding: 80px 50px; flex-wrap: wrap; }
+        .about-section, .contact-section { display: flex; align-items: center; justify-content: center; gap: 50px; padding: 80px 50px; flex-wrap: wrap; }
         .about-section { background: #111111; }
-        .quiz-section { background: #1a1a1a; }
         .contact-section { background: #111111; }
-        .about-text, .quiz-text, .contact-text { max-width: 500px; }
+        .about-text, .contact-text { max-width: 500px; }
         h2 { font-size: 36px; margin-bottom: 20px; color: #ffd700; text-shadow: 0 0 5px #ffd700; }
         p { font-size: 16px; line-height: 1.5; color: #e0e0e0; }
-        .about-image img, .quiz-image img, .contact-image img { width: 400px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.6); transition: transform 0.4s ease, box-shadow 0.4s ease; }
-        .about-image img:hover, .quiz-image img:hover, .contact-image img:hover { transform: scale(1.06); box-shadow: 0 8px 35px rgba(255,215,0,0.4); }
-        .quiz-section .start-btn { margin-top: 20px; }
+        .about-image img, .contact-image img { width: 400px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.6); transition: transform 0.4s ease, box-shadow 0.4s ease; }
+        .about-image img:hover, .contact-image img:hover { transform: scale(1.06); box-shadow: 0 8px 35px rgba(255,215,0,0.4); }
 
         /* Contact Form */
         .contact-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
@@ -200,8 +180,8 @@ const Home = () => {
         @keyframes fadeIn { 0% { opacity: 0; transform: translateY(-20px); } 100% { opacity: 1; transform: translateY(0); } }
 
         @media screen and (max-width: 768px) {
-          .about-section, .quiz-section, .contact-section { flex-direction: column; text-align: center; }
-          .about-image img, .quiz-image img, .contact-image img { width: 300px; }
+          .about-section, .contact-section { flex-direction: column; text-align: center; }
+          .about-image img, .contact-image img { width: 300px; }
           .hero-section h1 { font-size: 36px; }
           .hero-buttons { flex-direction: column; gap: 15px; }
           .navbar .nav-links { gap: 12px; }

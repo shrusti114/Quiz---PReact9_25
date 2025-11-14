@@ -1,55 +1,72 @@
+// src/components/StudentLogin.js
 import React, { useState } from "react";
+import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 const StudentLogin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  // ✅ Validation Schema
+  const schema = yup.object().shape({
+    email: yup.string().email("Invalid email").required("Email is required"),
+    password: yup.string().required("Password is required"),
+  });
+
+  // ✅ Handle Change
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // ✅ Handle Submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!email || !password) {
-      setMessage("⚠️ Please enter both Email and Password.");
-      return;
-    }
-
     try {
-      const response = await fetch("http://localhost:5000/Users/login", {
+      await schema.validate(form, { abortEarly: false });
+
+      const response = await fetch("http://localhost:5003/Users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(form),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert("✅ Login Successful!");
-        navigate("/quizpage"); // redirect to quiz page
+        alert("🎉 Login Successful!");
+        // Optionally, save token or user info
+        localStorage.setItem("studentData", JSON.stringify(data));
+        navigate("/quizpage"); // Redirect to quiz page
       } else {
-        setMessage(`❌ ${data.message || "Invalid email or password"}`);
+        setMessage(data.message || "Invalid credentials");
       }
-    } catch (error) {
-      setMessage("⚠️ Server not reachable. Please try again later.");
+    } catch (err) {
+      if (err.inner) {
+        setMessage(err.inner.map((e) => e.message).join("\n"));
+      } else {
+        setMessage(err.message);
+      }
     }
   };
 
   return (
     <div className="login-container">
       <h2>Student Login</h2>
-      <form className="login-form" onSubmit={handleLogin}>
+      <form className="login-form" onSubmit={handleSubmit}>
         <input
           type="email"
-          placeholder="Enter Email ID"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          placeholder="Enter Email"
+          value={form.email}
+          onChange={handleChange}
         />
         <input
           type="password"
+          name="password"
           placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={form.password}
+          onChange={handleChange}
         />
         <button type="submit">Login</button>
       </form>
@@ -58,7 +75,7 @@ const StudentLogin = () => {
 
       <style>{`
         .login-container {
-          background: linear-gradient(to right, #232526, #414345);
+          background: linear-gradient(to right, #141E30, #243B55);
           color: white;
           min-height: 100vh;
           display: flex;
@@ -118,6 +135,7 @@ const StudentLogin = () => {
           margin-top: 10px;
           font-size: 0.9rem;
           text-align: center;
+          white-space: pre-line;
         }
       `}</style>
     </div>

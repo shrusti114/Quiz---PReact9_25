@@ -1,144 +1,120 @@
-// src/components/QuizPage.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const QuizPage = () => {
-  // Updated quiz questions
-  const questions = [
-    // Web Development
-    {
-      question: "Which language is primarily used for building interactive web pages?",
-      options: ["HTML", "CSS", "JavaScript", "Python"],
-      answer: "JavaScript",
-    },
-    {
-      question: "Which HTML tag is used to link an external CSS file?",
-      options: ["<link>", "<style>", "<css>", "<script>"],
-      answer: "<link>",
-    },
+export default function StudentQuiz() {
+  const [student, setStudent] = useState(null);
+  const [subjects, setSubjects] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const navigate = useNavigate();
 
-    // Cybersecurity
-    {
-      question: "What does HTTPS stand for?",
-      options: [
-        "HyperText Transfer Protocol Secure",
-        "HyperText Transfer Protocol Simple",
-        "High Transfer Protocol Security",
-        "Hyperlink Text Protocol Secure",
-      ],
-      answer: "HyperText Transfer Protocol Secure",
-    },
-    {
-      question: "Which type of attack tricks users into revealing sensitive information?",
-      options: ["Phishing", "Brute Force", "DDoS", "Spoofing"],
-      answer: "Phishing",
-    },
+  useEffect(() => {
+    // Get student data from localStorage
+    const data = JSON.parse(localStorage.getItem("studentData"));
 
-    // Microbiology
-    {
-      question: "Which microorganism is used to make yogurt?",
-      options: ["E. coli", "Lactobacillus", "Salmonella", "Staphylococcus"],
-      answer: "Lactobacillus",
-    },
-    {
-      question: "Which of the following is a virus?",
-      options: ["Influenza", "Escherichia coli", "Saccharomyces cerevisiae", "Bacillus subtilis"],
-      answer: "Influenza",
-    },
-  ];
-
-  const [current, setCurrent] = useState(0);
-  const [score, setScore] = useState(0);
-  const [showScore, setShowScore] = useState(false);
-
-  const handleAnswer = (option) => {
-    if (option === questions[current].answer) {
-      setScore(score + 1);
+    if (!data) {
+      navigate("/StudentLogin"); // Redirect if not logged in
+      return;
     }
-    const next = current + 1;
-    if (next < questions.length) {
-      setCurrent(next);
-    } else {
-      setShowScore(true);
+
+    setStudent(data);
+
+    // Fetch all subjects from backend
+    axios
+      .get("http://localhost:5003/subjects/display") // Matches updated backend route
+      .then((res) => setSubjects(res.data))
+      .catch((err) => console.log("Error fetching subjects:", err));
+  }, [navigate]);
+
+  const startQuiz = () => {
+    if (!selectedSubject) {
+      alert("Please select a subject!");
+      return;
     }
+    navigate(`/quiz/start/${selectedSubject}`);
   };
 
   return (
     <div style={styles.container}>
-      <h1>Quiz Page</h1>
-      {!showScore ? (
-        <div style={styles.quizBox}>
-          <h2>{questions[current].question}</h2>
-          <div style={styles.options}>
-            {questions[current].options.map((option, index) => (
-              <button
-                key={index}
-                style={styles.optionButton}
-                onClick={() => handleAnswer(option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-          <p>
-            Question {current + 1} of {questions.length}
-          </p>
-        </div>
-      ) : (
-        <div style={styles.quizBox}>
-          <h2>Quiz Completed!</h2>
-          <p>
-            You scored {score} out of {questions.length}
-          </p>
-          <a href="/" style={styles.homeLink}>Go Back Home</a>
+      <h2 style={styles.heading}>📚 Student Dashboard</h2>
+
+      {student && (
+        <div style={styles.studentBox}>
+          <p><strong>Name:</strong> {student.username}</p>
+          <p><strong>Degree:</strong> {student.degree}</p>
+          <p><strong>Email:</strong> {student.email}</p>
         </div>
       )}
+
+      <h3 style={styles.subHeading}>Select Subject</h3>
+
+      {/* Dropdown Box */}
+      <select
+        style={styles.dropdown}
+        value={selectedSubject}
+        onChange={(e) => setSelectedSubject(e.target.value)}
+      >
+        <option value="">-- Choose Subject --</option>
+        {subjects.map((sub) => (
+          <option key={sub._id} value={sub.subject_name}>
+            {sub.subject_name}
+          </option>
+        ))}
+      </select>
+
+      <button style={styles.startBtn} onClick={startQuiz}>
+        Start Quiz
+      </button>
     </div>
   );
-};
+}
 
-// Inline styles
+// Inline CSS
 const styles = {
   container: {
-    minHeight: "100vh",
-    paddingTop: "100px",
-    textAlign: "center",
+    width: "700px",
+    margin: "50px auto",
+    padding: "25px",
     background: "#111",
-    color: "#fff",
-    fontFamily: "Arial, sans-serif",
+    color: "white",
+    borderRadius: "12px",
+    boxShadow: "0 0 10px rgba(255,255,255,0.2)",
   },
-  quizBox: {
-    maxWidth: "600px",
-    margin: "0 auto",
+  heading: {
+    textAlign: "center",
+    marginBottom: "20px",
+  },
+  studentBox: {
     background: "#222",
-    padding: "30px",
-    borderRadius: "10px",
+    padding: "15px",
+    borderRadius: "8px",
+    marginBottom: "20px",
+    lineHeight: "1.6",
   },
-  options: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px",
+  subHeading: {
     marginTop: "20px",
+    marginBottom: "10px",
+    borderBottom: "1px solid white",
+    paddingBottom: "5px",
   },
-  optionButton: {
-    padding: "12px 20px",
-    background: "#ffcc00",
-    color: "#000",
-    border: "none",
-    borderRadius: "5px",
-    fontWeight: "bold",
+  dropdown: {
+    width: "100%",
+    padding: "12px",
+    fontSize: "16px",
+    borderRadius: "8px",
+    background: "#333",
+    color: "white",
+    border: "1px solid white",
+    marginBottom: "20px",
+  },
+  startBtn: {
+    width: "100%",
+    padding: "12px",
+    background: "black",
+    border: "2px solid white",
+    color: "white",
+    borderRadius: "8px",
     cursor: "pointer",
-    transition: "0.3s",
-  },
-  homeLink: {
-    marginTop: "20px",
-    display: "inline-block",
-    padding: "10px 20px",
-    background: "#ffcc00",
-    color: "#000",
-    borderRadius: "5px",
-    textDecoration: "none",
-    fontWeight: "bold",
+    fontSize: "18px",
   },
 };
-
-export default QuizPage;

@@ -1,99 +1,150 @@
 const http = require("http");
 const { MongoClient } = require("mongodb");
 
+// ---- MONGO CONNECTION ----
 const url = "mongodb://127.0.0.1:27017";
-const dbName = "Quiz"; // ✅ Database name
+const dbName = "Quiz";
 let db;
 
-// Connect to MongoDB
 MongoClient.connect(url)
   .then((client) => {
     db = client.db(dbName);
-    console.log("✅ MongoDB connected successfully!");
+    console.log("✅ MongoDB connected to:", dbName);
     startServer();
   })
-  .catch((err) => console.error("❌ MongoDB connection failed:", err));
+  .catch((err) => console.log("❌ MongoDB Error:", err));
 
+// ---- START SERVER ----
 function startServer() {
   const server = http.createServer(async (req, res) => {
-    // ✅ Enable CORS
+
+    // CORS SETTINGS
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
     if (req.method === "OPTIONS") {
-      res.writeHead(204);
+      res.writeHead(200);
       res.end();
       return;
     }
 
-    // ✅ Route 1: Insert user (Registration)
-    if (req.url === "/Users/insert" && req.method === "POST") {
-      let body = "";
-      req.on("data", (chunk) => (body += chunk.toString()));
+    try {
 
-      req.on("end", async () => {
-        try {
-          const userData = JSON.parse(body);
-          const collection = db.collection("Users");
+      // ---------------------------
+      // 1️⃣ USER REGISTRATION
+      // ---------------------------
+      if (req.url === "/Users/register" && req.method === "POST") {
+        let body = "";
+        req.on("data", chunk => body += chunk.toString());
 
-          // Get next studentId (auto-increment)
-          const count = await collection.countDocuments();
-          const nextId = count + 1;
+        req.on("end", async () => {
+          const { username, email, password, degree } = JSON.parse(body);
 
-          const newUser = {
-            studentId: nextId,
-            username: userData.username,
-            email: userData.email,
-            collegeName: userData.collegeName,
-            degree: userData.degree,
-            password: userData.password,
-          };
+          const existing = await db.collection("Users").findOne({ email });
+          if (existing) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ message: "Email already registered" }));
+            return;
+          }
 
-          await collection.insertOne(newUser);
+          await db.collection("Users").insertOne({ username, email, password, degree });
 
           res.writeHead(200, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ message: "Registration successful", studentId: nextId }));
-        } catch (err) {
-          res.writeHead(500, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ message: "Error registering user", error: err.message }));
-        }
-      });
-    }
+          res.end(JSON.stringify({ message: "Registration successful" }));
+        });
 
-    // ✅ Route 2: Login user
-    else if (req.url === "/Users/login" && req.method === "POST") {
-      let body = "";
-      req.on("data", (chunk) => (body += chunk.toString()));
+        return;
+      }
 
-      req.on("end", async () => {
-        try {
+      // ---------------------------
+      // 2️⃣ USER LOGIN
+      // ---------------------------
+      if (req.url === "/Users/login" && req.method === "POST") {
+        let body = "";
+        req.on("data", chunk => body += chunk.toString());
+
+        req.on("end", async () => {
           const { email, password } = JSON.parse(body);
+
           const user = await db.collection("Users").findOne({ email, password });
-
-          if (user) {
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ message: "Login successful" }));
-          } else {
+          if (!user) {
             res.writeHead(401, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ message: "Invalid email or password" }));
+            res.end(JSON.stringify({ message: "Invalid credentials" }));
+            return;
           }
-        } catch (err) {
-          res.writeHead(500, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ message: "Error logging in", error: err.message }));
+
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({
+            message: "Login successful",
+            username: user.username,
+            email: user.email,
+            degree: user.degree
+          }));
+        });
+
+        return;
+      }
+
+      // ---------------------------
+      // 3️⃣ FETCH STUDENT BY USERNAME
+      // ---------------------------
+      if (req.url.startsWith("/student/") && req.method === "GET") {
+        const username = req.url.split("/")[2];
+
+        const student = await db.collection("Users").findOne({ username });
+
+        if (!student) {
+          res.writeHead(404, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: "Student not found" }));
+          return;
         }
-      });
+
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(student));
+        return;
+      }
+
+      // ---------------------------
+      // 4️⃣ GET ALL SUBJECTS
+      // ---------------------------
+      if ((req.url === "/subjects" || req.url === "/subjects/display") && req.method === "GET") {
+        const subjectsCollection = db.collection("subjects");
+        const subjects = await subjectsCollection.find({}).toArray();
+
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(subjects));
+        return;
+      }
+
+      // ---------------------------
+      // 5️⃣ GET QUIZ QUESTIONS BY SUBJECT
+      // ---------------------------
+      if (req.url.startsWith("/quiz/questions/") && req.method === "GET") {
+        const subject = decodeURI(req.url.split("/")[3]);
+
+        const questions = await db.collection("quiz").find({ subject }).toArray();
+
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(questions));
+        return;
+      }
+
+      // ---------------------------
+      // ❌ DEFAULT ROUTE
+      // ---------------------------
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Route not found" }));
+
+    } catch (err) {
+      console.log("❌ SERVER ERROR:", err);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Server error" }));
     }
 
-    // ✅ Default Route
-    else {
-      res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Route not found" }));
-    }
   });
 
-  // ✅ Start server
-  const PORT = 5000;
-  server.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  server.listen(5003, () => {
+    console.log("🚀 Server running on PORT 5003");
   });
 }
