@@ -5,6 +5,8 @@ export default function CreateQuiz({ teacher, subject, onBack }) {
   const [questions, setQuestions] = useState(
     Array.from({ length: 15 }, (_, idx) => ({
       quiz_id: `Q${(idx + 1).toString().padStart(3, "0")}`,
+      quiz_name: "",
+      question_no: `Q${idx + 1}`,
       question: "",
       marks: 2,
       options: ["", "", "", ""],
@@ -15,24 +17,29 @@ export default function CreateQuiz({ teacher, subject, onBack }) {
   const handleChangeQuestion = (index, value) => {
     const newQ = [...questions];
     newQ[index].question = value;
+    newQ[index].quiz_name = quizName; // link quiz name to question
     setQuestions(newQ);
   };
 
   const handleChangeOption = (qIndex, optIndex, value) => {
     const newQ = [...questions];
     newQ[qIndex].options[optIndex] = value;
+    newQ[qIndex].quiz_name = quizName;
     setQuestions(newQ);
   };
 
   const handleChangeCorrectAnswer = (index, value) => {
     const newQ = [...questions];
     newQ[index].correctAnswer = value;
+    newQ[index].quiz_name = quizName;
     setQuestions(newQ);
   };
 
   const handleSubmit = async () => {
     const cleanQuestions = questions.map((q) => ({
       quiz_id: q.quiz_id,
+      quiz_name: quizName,
+      question_no: q.question_no,
       question: q.question,
       correctAnswer: q.correctAnswer,
       marks: q.marks,
@@ -85,7 +92,7 @@ export default function CreateQuiz({ teacher, subject, onBack }) {
 
       {questions.map((q, i) => (
         <div key={i} style={styles.questionBlock}>
-          <label style={styles.label}>{q.quiz_id}</label>
+          <label style={styles.label}>{q.question_no}</label>
           <input
             type="text"
             placeholder="Enter question"
@@ -141,13 +148,10 @@ export default function CreateQuiz({ teacher, subject, onBack }) {
 
 const styles = {
   container: {
-   
     padding: "25px",
-  
     background: "linear-gradient(135deg, #120625ff, #7597de)",
     color: "#fff",
     fontFamily: "Poppins, sans-serif",
-   
   },
   heading: {
     textAlign: "center",

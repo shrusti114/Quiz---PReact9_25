@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import TeacherLogin from "./Components/TeacherLogin";
-import Dashboard from "./Components/Dashboard";  // Use Dashboard.js
+import Dashboard from "./Components/Dashboard"; 
 import CreateQuiz from "./Components/CreateQuiz";
 import ViewStudents from "./Components/ViewStudents";
+import ViewProfileStud from "./Components/viewprofileStud";  // Import new component
 
 export default function App() {
   const [teacher, setTeacher] = useState(null);
   const [subject, setSubject] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState(null); // For profile
   const [page, setPage] = useState("login");
 
   if (page === "login")
@@ -41,7 +43,24 @@ export default function App() {
     );
 
   if (page === "students")
-    return <ViewStudents teacher={teacher} onBack={() => setPage("dashboard")} />;
+    return (
+      <ViewStudents
+        teacher={teacher}
+        onBack={() => setPage("dashboard")}
+        onViewProfile={(student) => {
+          setSelectedStudent(student);
+          setPage("viewProfile");
+        }}
+      />
+    );
+
+  if (page === "viewProfile")
+    return (
+      <ViewProfileStud
+        student={selectedStudent}
+        onBack={() => setPage("students")}
+      />
+    );
 
   return null;
 }
