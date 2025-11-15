@@ -1,0 +1,112 @@
+.container {
+  width: 850px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #111;
+  color: white;
+  border-radius: 12px;
+  font-family: sans-serif;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.subTitle {
+  margin-bottom: 20px;
+  border-bottom: 1px solid white;
+  padding-bottom: 5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.subjectCard {
+  background: #222;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid white;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+
+.subjectCard:hover {
+  transform: scale(1.05);
+}
+
+.backBtn {
+  background: black;
+  border: 1px solid white;
+  padding: 8px 15px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.quizGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.quizCard {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.quizCardInner {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.quizCard.flipped .quizCardInner {
+  transform: rotateY(180deg);
+}
+
+.quizCardFront,
+.quizCardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #222;
+  border: 1px solid white;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.quizCardBack {
+  transform: rotateY(180deg);
+}
+
+.quizCardBack button {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: black;
+  color: white;
+  border: 1px solid white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.noQuiz {
+  text-align: center;
+  opacity: 0.6;
+}

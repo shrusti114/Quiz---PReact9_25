@@ -28,7 +28,7 @@ async function connectDB() {
     departmentCollection = db.collection("departments");
     quizCollection = db.collection("quizzes");
     questionCollection = db.collection("questions");
-    userCollection = db.collection("users"); // <-- Added users collection
+    userCollection = db.collection("users");
     console.log("✅ Connected to MongoDB");
   } catch (err) {
     console.error("❌ MongoDB Connection Error:", err);
@@ -72,7 +72,6 @@ app.post("/teachers/fetchByEmail", async (req, res) => {
     if (!teacher)
       return res.status(200).json({ success: false, message: "Teacher not found" });
 
-    // Fetch subjects from teacher's department
     const subjects = await subjectCollection
       .find({ department_id: teacher.department_id })
       .toArray();
@@ -137,7 +136,7 @@ app.get("/departments/:department_id", async (req, res) => {
   }
 });
 
-// ---------- CREATE QUIZ + STORE QUESTIONS SEPARATELY ----------
+// ---------- CREATE QUIZ + STORE QUESTIONS SEPARATELY WITH QUESTION IDs ----------
 app.post("/quizzes/create", async (req, res) => {
   try {
     const { quizName, teacherId, subjectId, questions, totalMarks } = req.body;
@@ -160,13 +159,18 @@ app.post("/quizzes/create", async (req, res) => {
     const quizResult = await quizCollection.insertOne(quizDoc);
     const quizId = quizResult.insertedId;
 
-    // Insert each question into "questions" collection
-    const questionDocs = questions.map((q) => ({
-      quizRef: quizId,
-      question: q.question,
-      correctAnswer: q.correctAnswer,
-      marks: q.marks,
-    }));
+    // Insert each question with a question_id like Q001, Q002
+    const questionDocs = questions.map((q, idx) => {
+      const options = q.options.map((opt) => opt.trim() || "N/A");
+      return {
+        quizRef: quizId,
+        question_id: `Q${(idx + 1).toString().padStart(3, "0")}`,
+        question_text: q.question_text,
+        options,
+        correctAnswer: q.correctAnswer || "N/A",
+        marks: Number(q.marks) || 0,
+      };
+    });
 
     await questionCollection.insertMany(questionDocs);
 
