@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom"; // ✅ For redirect
+import { useNavigate } from "react-router-dom";
 
 const StudentRegister = () => {
   const [form, setForm] = useState({
@@ -14,17 +14,30 @@ const StudentRegister = () => {
   });
 
   const [message, setMessage] = useState("");
-  const [nextId, setNextId] = useState(2); // Starting ID number
-  const navigate = useNavigate(); // ✅ Initialize navigation
+  const navigate = useNavigate();
 
+  // -------------------------------------
+  // FETCH AUTO-INCREMENT STUDENT ID
+  // -------------------------------------
   useEffect(() => {
-    // Auto-assign next ID whenever form resets
-    setForm((prev) => ({ ...prev, studentId: nextId }));
-  }, [nextId]);
+    const fetchNextId = async () => {
+      try {
+        const response = await fetch("http://localhost:5003/Users/nextId");
+        const data = await response.json();
 
-  // ✅ Validation Schema
+        if (response.ok) {
+          setForm((prev) => ({ ...prev, studentId: data.nextId }));
+        }
+      } catch (err) {
+        console.log("Error fetching next ID:", err);
+      }
+    };
+
+    fetchNextId();
+  }, []);
+
+  // Validation Schema
   const schema = yup.object().shape({
-    studentId: yup.number().required("Student ID is required"),
     username: yup.string().required("Username is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
     collegeName: yup.string().required("College Name is required"),
@@ -36,18 +49,19 @@ const StudentRegister = () => {
       .required("Confirm Password is required"),
   });
 
-  // ✅ Handle Change
+  // Handle Change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ✅ Handle Submit
+  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       await schema.validate(form, { abortEarly: false });
 
-      const response = await fetch("http://localhost:5000/Users/insert", {
+      const response = await fetch("http://localhost:5003/Users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -57,9 +71,13 @@ const StudentRegister = () => {
 
       if (response.ok) {
         alert("🎉 Registration Successful!");
-        setNextId((prev) => prev + 1);
+
+        // fetch next ID again
+        const res = await fetch("http://localhost:5003/Users/nextId");
+        const next = await res.json();
+
         setForm({
-          studentId: nextId + 1,
+          studentId: next.nextId,
           username: "",
           email: "",
           collegeName: "",
@@ -68,11 +86,9 @@ const StudentRegister = () => {
           confirmPassword: "",
         });
 
-        // ✅ Show confirmation and redirect
-        if (window.confirm("✅ Registration successful! Click OK to go to Login page.")) {
-          navigate("/StudentLogin");
+        if (window.confirm("Click OK to go to Login page.")) {
+          navigate("/login");
         }
-
       } else {
         alert(`⚠️ ${data.message}`);
       }
@@ -88,14 +104,10 @@ const StudentRegister = () => {
   return (
     <div className="register-container">
       <h2>Student Registration</h2>
+
       <form className="register-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="studentId"
-          placeholder="Student ID"
-          value={form.studentId}
-          readOnly
-        />
+        <input type="text" name="studentId" value={form.studentId} readOnly />
+
         <input
           type="text"
           name="username"
@@ -103,6 +115,7 @@ const StudentRegister = () => {
           value={form.username}
           onChange={handleChange}
         />
+
         <input
           type="email"
           name="email"
@@ -110,6 +123,7 @@ const StudentRegister = () => {
           value={form.email}
           onChange={handleChange}
         />
+
         <input
           type="text"
           name="collegeName"
@@ -117,6 +131,7 @@ const StudentRegister = () => {
           value={form.collegeName}
           onChange={handleChange}
         />
+
         <input
           type="text"
           name="degree"
@@ -124,6 +139,7 @@ const StudentRegister = () => {
           value={form.degree}
           onChange={handleChange}
         />
+
         <input
           type="password"
           name="password"
@@ -131,6 +147,7 @@ const StudentRegister = () => {
           value={form.password}
           onChange={handleChange}
         />
+
         <input
           type="password"
           name="confirmPassword"
@@ -138,11 +155,13 @@ const StudentRegister = () => {
           value={form.confirmPassword}
           onChange={handleChange}
         />
+
         <button type="submit">Register</button>
       </form>
 
       {message && <p className="error">{message}</p>}
 
+      {/* FULL CSS BELOW */}
       <style>{`
         .register-container {
           background: linear-gradient(to right, #141E30, #243B55);
