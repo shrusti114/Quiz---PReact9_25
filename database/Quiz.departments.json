@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "68fb5bbaa68c9afee42caf99"
+  },
+  "department_id": "D001",
+  "department_name": "Computer Application "
+},
+{
+  "_id": {
+    "$oid": "68fb5c4aa68c9afee42caf9b"
+  },
+  "department_id": "D003",
+  "department_name": "Computer Science"
+},
+{
+  "_id": {
+    "$oid": "68fb5d3ea68c9afee42caf9c"
+  },
+  "department_id": "D004",
+  "department_name": "Artificial Intelligence (AI)"
+},
+{
+  "_id": {
+    "$oid": "68fb5d51a68c9afee42caf9d"
+  },
+  "department_id": "D005",
+  "department_name": "Cybersecurity"
+},
+{
+  "_id": {
+    "$oid": "68fb5d6ea68c9afee42caf9e"
+  },
+  "department_id": "D006",
+  "department_name": "Microbiology"
+}]

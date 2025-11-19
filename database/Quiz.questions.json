@@ -1,0 +1,513 @@
+[{
+  "_id": {
+    "$oid": "691848230d734133d0a00370"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f0"
+  },
+  "question_text": "What is supervised learning?",
+  "options": [
+    "A type of learning",
+    "A type of data",
+    "A programming language",
+    "None"
+  ],
+  "correctAnswer": "A type of learning",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "691848230d734133d0a00371"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f0"
+  },
+  "question_text": "Which algorithm is used for classification?",
+  "options": [
+    "Linear Regression",
+    "Decision Tree",
+    "K-Means",
+    "PCA"
+  ],
+  "correctAnswer": "Decision Tree",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "691848230d734133d0a00372"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f0"
+  },
+  "question_text": "What does ML stand for?",
+  "options": [
+    "Machine Learning",
+    "Model Logic",
+    "Mathematical Language",
+    "Macro Language"
+  ],
+  "correctAnswer": "Machine Learning",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "69184d690d734133d0a00373"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f5"
+  },
+  "question_text": "What is a DoS attack?",
+  "options": [
+    "Denial of Service attack",
+    "Data over Security attack",
+    "Direct Operating System attack",
+    "None of the above"
+  ],
+  "correctAnswer": "Denial of Service attack",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "69184d690d734133d0a00374"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f5"
+  },
+  "question_text": "Which protocol is commonly targeted in a SYN flood attack?",
+  "options": [
+    "TCP",
+    "UDP",
+    "HTTP",
+    "FTP"
+  ],
+  "correctAnswer": "TCP",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "69184d690d734133d0a00375"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f5"
+  },
+  "question_text": "What is phishing?",
+  "options": [
+    "Malicious software",
+    "A social engineering attack",
+    "Network scanning technique",
+    "Firewall misconfiguration"
+  ],
+  "correctAnswer": "A social engineering attack",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "69184d690d734133d0a00376"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f5"
+  },
+  "question_text": "Which of these is an example of a network attack?",
+  "options": [
+    "SQL Injection",
+    "Brute Force login",
+    "Man-in-the-Middle attack",
+    "All of the above"
+  ],
+  "correctAnswer": "All of the above",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "69184d690d734133d0a00377"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f5"
+  },
+  "question_text": "What does a firewall do?",
+  "options": [
+    "Prevents unauthorized access",
+    "Monitors system performance",
+    "Encrypts data at rest",
+    "Manages passwords"
+  ],
+  "correctAnswer": "Prevents unauthorized access",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "69184e51bd9d431b90aefd31"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f2"
+  },
+  "question_text": "What is a robot?",
+  "options": [
+    "A machine that can perform tasks automatically",
+    "A type of software",
+    "A human assistant",
+    "None of the above"
+  ],
+  "correctAnswer": "A machine that can perform tasks automatically",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "69184e51bd9d431b90aefd32"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f2"
+  },
+  "question_text": "Which type of robot is used for industrial automation?",
+  "options": [
+    "Humanoid robot",
+    "Industrial robot",
+    "Service robot",
+    "Educational robot"
+  ],
+  "correctAnswer": "Industrial robot",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "69184e51bd9d431b90aefd33"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f2"
+  },
+  "question_text": "What is the main sensor used in a line-following robot?",
+  "options": [
+    "Ultrasonic sensor",
+    "Infrared sensor",
+    "Temperature sensor",
+    "Pressure sensor"
+  ],
+  "correctAnswer": "Infrared sensor",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "69184e51bd9d431b90aefd34"
+  },
+  "quizRef": {
+    "$oid": "6915a41094fdff0c11fc28f2"
+  },
+  "question_text": "Which programming language is commonly used in robotics?",
+  "options": [
+    "Python",
+    "JavaScript",
+    "HTML",
+    "CSS"
+  ],
+  "correctAnswer": "Python",
+  "marks": 5
+},
+{
+  "_id": {
+    "$oid": "6918510adc82b90c8a92ce75"
+  },
+  "quizRef": {
+    "$oid": "6918510adc82b90c8a92ce74"
+  },
+  "question_id": "Q001",
+  "question_text": "Question 1",
+  "options": [
+    "a",
+    "b",
+    "c",
+    "d"
+  ],
+  "correctAnswer": "C",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "69185261dc82b90c8a92ce85"
+  },
+  "quizRef": {
+    "$oid": "69185261dc82b90c8a92ce84"
+  },
+  "question_id": "Q001",
+  "question_text": "Question 2",
+  "options": [
+    "sfvs",
+    "dsvsdsdf",
+    "sdvvfs",
+    "fdvdf"
+  ],
+  "correctAnswer": "C",
+  "marks": 1
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926c2"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "What is a robot?",
+  "options": [
+    "A machine that performs tasks automatically",
+    "A human worker",
+    "A software program",
+    "A toy"
+  ],
+  "correctAnswer": "A machine that performs tasks automatically",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926c3"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "Which sensor is commonly used for obstacle detection in robots?",
+  "options": [
+    "Infrared sensor",
+    "Temperature sensor",
+    "Pressure sensor",
+    "Humidity sensor"
+  ],
+  "correctAnswer": "Infrared sensor",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926c4"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "Which programming language is widely used in robotics?",
+  "options": [
+    "Python",
+    "HTML",
+    "CSS",
+    "PHP"
+  ],
+  "correctAnswer": "Python",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926c5"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "What does UAV stand for in robotics?",
+  "options": [
+    "Unmanned Aerial Vehicle",
+    "Universal Automated Vehicle",
+    "Unique Artificial Vision",
+    "Unidentified Aerial Vehicle"
+  ],
+  "correctAnswer": "Unmanned Aerial Vehicle",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926c6"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "Which type of robot mimics human appearance?",
+  "options": [
+    "Humanoid robot",
+    "Industrial robot",
+    "Service robot",
+    "Autonomous robot"
+  ],
+  "correctAnswer": "Humanoid robot",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926c7"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "Which robot is commonly used in factories for assembly?",
+  "options": [
+    "Industrial robot",
+    "Humanoid robot",
+    "Medical robot",
+    "Exploration robot"
+  ],
+  "correctAnswer": "Industrial robot",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926c8"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "What is the main purpose of a robotic arm?",
+  "options": [
+    "Manipulate objects",
+    "Fly",
+    "Scan documents",
+    "Play music"
+  ],
+  "correctAnswer": "Manipulate objects",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926c9"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "Which sensor detects distance using sound waves?",
+  "options": [
+    "Ultrasonic sensor",
+    "Infrared sensor",
+    "Temperature sensor",
+    "Light sensor"
+  ],
+  "correctAnswer": "Ultrasonic sensor",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926ca"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "What does AI stand for in robotics?",
+  "options": [
+    "Artificial Intelligence",
+    "Automatic Integration",
+    "Applied Innovation",
+    "Advanced Interface"
+  ],
+  "correctAnswer": "Artificial Intelligence",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926cb"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "Which robot is used for medical surgeries?",
+  "options": [
+    "Surgical robot",
+    "Industrial robot",
+    "Humanoid robot",
+    "Exploration robot"
+  ],
+  "correctAnswer": "Surgical robot",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926cc"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "What is the primary function of a mobile robot?",
+  "options": [
+    "Move autonomously",
+    "Manipulate objects",
+    "Play music",
+    "Print documents"
+  ],
+  "correctAnswer": "Move autonomously",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926cd"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "Which actuator is commonly used in robots for motion?",
+  "options": [
+    "Servo motor",
+    "LED",
+    "Switch",
+    "Battery"
+  ],
+  "correctAnswer": "Servo motor",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926ce"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "Which type of robot can explore dangerous environments?",
+  "options": [
+    "Exploration robot",
+    "Industrial robot",
+    "Humanoid robot",
+    "Service robot"
+  ],
+  "correctAnswer": "Exploration robot",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926cf"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "Which sensor helps a robot to detect light intensity?",
+  "options": [
+    "Light sensor",
+    "Ultrasonic sensor",
+    "Infrared sensor",
+    "Temperature sensor"
+  ],
+  "correctAnswer": "Light sensor",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "6919bf325b6e22f1e9f926d0"
+  },
+  "quizRef": {
+    "$oid": "6919bbc12932be8ff07b70de"
+  },
+  "question_text": "What is the purpose of a line-following robot?",
+  "options": [
+    "Follow a pre-defined path",
+    "Fly in air",
+    "Manipulate objects",
+    "Play music"
+  ],
+  "correctAnswer": "Follow a pre-defined path",
+  "marks": 2
+},
+{
+  "_id": {
+    "$oid": "691a2b39b52f9f302ef47ace"
+  },
+  "quizRef": {
+    "$oid": "691a2b39b52f9f302ef47acd"
+  },
+  "question_id": "Q001",
+  "question_text": " xms",
+  "options": [
+    "mc",
+    "m c",
+    "c",
+    "c"
+  ],
+  "correctAnswer": "N/A",
+  "marks": 2
+}]

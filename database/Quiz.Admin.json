@@ -1,0 +1,15 @@
+[{
+  "_id": {
+    "$oid": "68fb4a4ea68c9afee42caf96"
+  },
+  "email": "Admin@gmail.com",
+  "password": "admin@123"
+},
+{
+  "_id": {
+    "$oid": "68fb4b3801849a2e9d0c7228"
+  },
+  "email": "Admin@gmail.com",
+  "password": "admin@123",
+  "name": "Admin"
+}]

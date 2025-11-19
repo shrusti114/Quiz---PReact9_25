@@ -1,0 +1,154 @@
+[{
+  "_id": {
+    "$oid": "68ff6a54876d0b3201ce19d8"
+  },
+  "username": "Shrusti Patel ",
+  "email": "shrust67i@gmail.com",
+  "studyLevel": "ghoik",
+  "collegeName": "Dolat-Usha Institute of Applied Sciences",
+  "degree": "MSc IT - Master of Science in Information Technology",
+  "password": ""
+},
+{
+  "_id": {
+    "$oid": "68ff70b87e445ef3bb5c782d"
+  },
+  "studentId": null,
+  "username": "sunny",
+  "email": "sunny@gmail.com",
+  "collegeName": "Dolat-Usha Institute of Applied Sciences",
+  "degree": "MSc Computer Science - Master of Science in Computer Science",
+  "password": "12345"
+},
+{
+  "_id": {
+    "$oid": "68ff75d80a3ab467866116ce"
+  },
+  "studentId": 1,
+  "username": "Tanya Patel",
+  "email": "tanya@gmail.com",
+  "collegeName": "Dolat-Usha Institute of Applied Sciences",
+  "degree": "BCA - Bachelor of Computer Applications",
+  "password": "12345"
+},
+{
+  "_id": {
+    "$oid": "68ff92a199cf80ee056d1002"
+  },
+  "studentId": 2,
+  "username": "lata",
+  "email": "lata7@gamil.com",
+  "collegeName": "Rofel Shri G M Bilakhia College of Pharmacy",
+  "degree": "BTech CS - Bachelor of Technology in Computer Science",
+  "password": "12345"
+},
+{
+  "_id": {
+    "$oid": "68ff92db99cf80ee056d1003"
+  },
+  "studentId": 3,
+  "username": "sunny",
+  "email": "sunny4@gmail.com",
+  "collegeName": "Dolat-Usha Institute of Applied Sciences",
+  "degree": "MSc Computer Science - Master of Science in Computer Science",
+  "password": "12345"
+},
+{
+  "_id": {
+    "$oid": "68ff95ba99cf80ee056d1004"
+  },
+  "studentId": 4,
+  "username": "shrusti patel",
+  "email": "shrusti12@gmail.com",
+  "collegeName": "Dhiru-Sarla Institute of Management and Commerce",
+  "degree": "MSc IT - Master of Science in Information Technology",
+  "password": "12345"
+},
+{
+  "_id": {
+    "$oid": "68ff968799cf80ee056d1005"
+  },
+  "studentId": 5,
+  "username": "sia",
+  "email": "sia1@gmail.com",
+  "collegeName": "Rofel Shri G M Bilakhia College of Pharmacy",
+  "degree": "BTech CS - Bachelor of Technology in Computer Science",
+  "password": "12345"
+},
+{
+  "_id": {
+    "$oid": "68ff9b8c99cf80ee056d1006"
+  },
+  "studentId": 6,
+  "username": "shrusti patel",
+  "email": "shrusti62@gmail.com",
+  "collegeName": "Dhiru-Sarla Institute of Management and Commerce",
+  "degree": "Admin@gmail.com",
+  "password": "12345"
+},
+{
+  "_id": {
+    "$oid": "69173e50243a9b41c78778cd"
+  },
+  "studentId": 12,
+  "username": "shrusti patel",
+  "email": "shrusti@gmail.com",
+  "collegeName": "GIDC Degree Engineering College",
+  "degree": "MCA - Master of Computer Applications",
+  "password": "123456"
+},
+{
+  "_id": {
+    "$oid": "69196a6c4f3bca218ca8cc69"
+  },
+  "studentId": 13,
+  "username": "Krishan",
+  "email": "krishan34@gmail.com",
+  "password": "1234",
+  "degree": "MCA - Master of Computer Applications",
+  "collegeName": "GIDC Degree Engineering College"
+},
+{
+  "_id": {
+    "$oid": "69198dc60924a48c92fbb1ea"
+  },
+  "studentId": 14,
+  "username": "radha",
+  "email": "radha@gamil.com",
+  "password": "12345",
+  "degree": "BTech CS - Bachelor of Technology in Computer Science",
+  "collegeName": "Dolat-Usha Institute of Applied Sciences"
+},
+{
+  "_id": {
+    "$oid": "6919a8768dc371f3d6896794"
+  },
+  "studentId": 15,
+  "username": "Ram",
+  "email": "ram@gamil.com",
+  "password": "1234",
+  "degree": "MCA - Master of Computer Applications",
+  "collegeName": "Dolat-Usha Institute of Applied Sciences"
+},
+{
+  "_id": {
+    "$oid": "691d1fa1f53231ebf426b59d"
+  },
+  "studentId": 16,
+  "username": "Ram",
+  "email": "ram4@gamil.com",
+  "password": "1234",
+  "degree": "MCA - Master of Computer Applications",
+  "collegeName": "Dolat-Usha Institute of Applied Sciences"
+},
+{
+  "_id": {
+    "$oid": "691d1fd8f53231ebf426b59e"
+  },
+  "studentId": 17,
+  "username": "Ram",
+  "email": "ram15@gamil.com",
+  "password": "1234",
+  "degree": "MCA - Master of Computer Applications",
+  "collegeName": "Dolat-Usha Institute of Applied Sciences"
+}]

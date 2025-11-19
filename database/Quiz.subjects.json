@@ -1,0 +1,90 @@
+[{
+  "_id": {
+    "$oid": "68fba758836c5e9aadecbb83"
+  },
+  "subject_id": "S004",
+  "subject_name": "Machine Learning ",
+  "department_id": "D003",
+  "department_name": "Computer Science"
+},
+{
+  "_id": {
+    "$oid": "68fbafec836c5e9aadecbb84"
+  },
+  "subject_id": "S005",
+  "subject_name": "Robotics",
+  "department_id": "D004",
+  "department_name": "Artificial Intelligence (AI)"
+},
+{
+  "_id": {
+    "$oid": "68fbb080836c5e9aadecbb85"
+  },
+  "subject_id": "S006",
+  "subject_name": "Cognitive Computing",
+  "department_id": "D004",
+  "department_name": "Artificial Intelligence (AI)"
+},
+{
+  "_id": {
+    "$oid": "68fbb0b7836c5e9aadecbb86"
+  },
+  "subject_id": "S007",
+  "subject_name": "Network Security",
+  "department_id": "D005",
+  "department_name": "Cybersecurity"
+},
+{
+  "_id": {
+    "$oid": "68fbb0ce836c5e9aadecbb87"
+  },
+  "subject_id": "S008",
+  "subject_name": "Cyber Law",
+  "department_id": "D005",
+  "department_name": "Cybersecurity"
+},
+{
+  "_id": {
+    "$oid": "68fbb103836c5e9aadecbb88"
+  },
+  "subject_id": "S009",
+  "subject_name": "Biochemistry",
+  "department_id": "D006",
+  "department_name": "Microbiology"
+},
+{
+  "_id": {
+    "$oid": "68fbb142836c5e9aadecbb89"
+  },
+  "subject_id": "S010",
+  "subject_name": "Environmental Microbiology",
+  "department_id": "D006",
+  "department_name": "Microbiology"
+},
+{
+  "_id": {
+    "$oid": "68fbbad6592acf51929983f6"
+  },
+  "subject_id": "S011",
+  "subject_name": "Javascript",
+  "department_id": "D001",
+  "department_name": "Computer Application"
+},
+{
+  "_id": {
+    "$oid": "68fcb44360ccd2a8cea5b1c8"
+  },
+  "subject_id": "S012",
+  "subject_name": "Web Development ",
+  "department_id": "D001",
+  "department_name": "Computer Application"
+},
+{
+  "_id": {
+    "$oid": "68fcb4cf60ccd2a8cea5b1c9"
+  },
+  "subject_id": "S013",
+  "subject_name": "Data Management ",
+  "department_id": "D003",
+  "department_name": "Computer Science"
+}]

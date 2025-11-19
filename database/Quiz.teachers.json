@@ -1,0 +1,114 @@
+[{
+  "_id": {
+    "$oid": "68fcceea68fc4508c3602704"
+  },
+  "teacher_id": "T001",
+  "teacherName": "Shree ",
+  "teacherEmail": "shree@gmail.com",
+  "teacherPassword": "shree@123",
+  "department_id": "D004",
+  "department_name": "Artificial Intelligence (AI)",
+  "subject_id": null,
+  "subject_name": ""
+},
+{
+  "_id": {
+    "$oid": "68fccf4668fc4508c3602705"
+  },
+  "teacher_id": "T002",
+  "teacherName": "Sunny",
+  "teacherEmail": "sunny@gmail.com",
+  "teacherPassword": "sunny@123",
+  "department_id": "D006",
+  "department_name": "Microbiology"
+},
+{
+  "_id": {
+    "$oid": "68fcd13c6f70741fbd5205da"
+  },
+  "teacher_id": "T003",
+  "teacherName": "Ujjaval",
+  "teacherEmail": "ujjaval@gmail.com",
+  "teacherPassword": "ujjaval@123",
+  "department_id": "D006",
+  "department_name": "Microbiology"
+},
+{
+  "_id": {
+    "$oid": "68fcd1ce6f70741fbd5205db"
+  },
+  "teacher_id": "T004",
+  "teacherName": "Shraddha",
+  "teacherEmail": "shraddha@gmail.com",
+  "teacherPassword": "shraddha@123",
+  "department_id": "D001",
+  "department_name": "Computer Application "
+},
+{
+  "_id": {
+    "$oid": "68fcd5046f70741fbd5205dc"
+  },
+  "teacher_id": "T005",
+  "teacherName": "Khushi",
+  "teacherEmail": "khushi@gmail.com",
+  "teacherPassword": "khushi@123",
+  "department_id": "D003",
+  "department_name": "Computer Science",
+  "subject_id": null,
+  "subject_name": ""
+},
+{
+  "_id": {
+    "$oid": "68fcd54d6f70741fbd5205dd"
+  },
+  "teacher_id": "T006",
+  "teacherName": "Tanya",
+  "teacherEmail": "tanya@gmail.com",
+  "teacherPassword": "tanya@123",
+  "department_id": "D003",
+  "department_name": "Computer Science"
+},
+{
+  "_id": {
+    "$oid": "68fcd6126f70741fbd5205de"
+  },
+  "teacher_id": "T007",
+  "teacherName": "Kenil",
+  "teacherEmail": "kenil@gmail.com",
+  "teacherPassword": "kenil@123",
+  "department_id": "D004",
+  "department_name": "Artificial Intelligence (AI)"
+},
+{
+  "_id": {
+    "$oid": "68fcd67c6f70741fbd5205df"
+  },
+  "teacher_id": "T008",
+  "teacherName": "Gaurav",
+  "teacherEmail": "gaurav@gamil.com",
+  "teacherPassword": "gaurav@123",
+  "department_id": "D005",
+  "department_name": "Cybersecurity"
+},
+{
+  "_id": {
+    "$oid": "68fcdf016f70741fbd5205e0"
+  },
+  "teacher_id": "T009",
+  "teacherName": "Dixita",
+  "teacherEmail": "dixita@gmail.com",
+  "teacherPassword": "dixita@123",
+  "department_id": "D001",
+  "department_name": "Computer Application "
+},
+{
+  "_id": {
+    "$oid": "68fcdf2d6f70741fbd5205e1"
+  },
+  "teacher_id": "T010",
+  "teacherName": "Shrusti",
+  "teacherEmail": "shrusti@gmail.com",
+  "teacherPassword": "shrusti@123",
+  "department_id": "D005",
+  "department_name": "Cybersecurity"
+}]

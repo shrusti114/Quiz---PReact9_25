@@ -1,0 +1,378 @@
+[{
+  "_id": {
+    "$oid": "69198df50924a48c92fbb1eb"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:21.671Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198df60924a48c92fbb1ec"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:22.091Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198df60924a48c92fbb1ed"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:22.620Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198df60924a48c92fbb1ee"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:22.713Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198df80924a48c92fbb1ef"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:24.432Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198df80924a48c92fbb1f0"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:24.899Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198df90924a48c92fbb1f1"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:25.208Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198dfa0924a48c92fbb1f2"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:26.595Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198dfe0924a48c92fbb1f3"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:30.476Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198dfe0924a48c92fbb1f4"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T08:40:30.987Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198fdb0924a48c92fbb1f5"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T08:48:27.540Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198fdc0924a48c92fbb1f6"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T08:48:28.585Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198fdf0924a48c92fbb1f7"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T08:48:31.186Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198fdf0924a48c92fbb1f8"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T08:48:31.839Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198fdf0924a48c92fbb1f9"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T08:48:31.943Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69198fe00924a48c92fbb1fa"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T08:48:32.425Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6919914a0924a48c92fbb1fb"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 15,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T08:54:34.694Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6919914d0924a48c92fbb1fc"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 15,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T08:54:37.125Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691991510924a48c92fbb1fd"
+  },
+  "studentName": "Unknown Student",
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 15,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T08:54:41.206Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691992f80924a48c92fbb1fe"
+  },
+  "studentName": null,
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 10,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T09:01:44.044Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691996920924a48c92fbb1ff"
+  },
+  "studentName": null,
+  "quizName": "Quiz 1 - Robotics Basics",
+  "subject": null,
+  "score": 20,
+  "totalMarks": 20,
+  "quizId": "6915a41094fdff0c11fc28f2",
+  "submittedAt": {
+    "$date": "2025-11-16T09:17:06.941Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691997b10924a48c92fbb200"
+  },
+  "studentName": null,
+  "quizName": "Quiz Practice 3",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 8,
+  "quizId": "69185261dc82b90c8a92ce84",
+  "submittedAt": {
+    "$date": "2025-11-16T09:21:53.897Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691998630924a48c92fbb201"
+  },
+  "studentName": null,
+  "quizName": "Quiz Practice 3",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 8,
+  "quizId": "69185261dc82b90c8a92ce84",
+  "submittedAt": {
+    "$date": "2025-11-16T09:24:51.634Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69199ebb0924a48c92fbb202"
+  },
+  "studentName": null,
+  "quizName": "Quiz Practice 3",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 8,
+  "quizId": "69185261dc82b90c8a92ce84",
+  "submittedAt": {
+    "$date": "2025-11-16T09:51:55.327Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69199fe80924a48c92fbb203"
+  },
+  "studentName": null,
+  "quizName": "Quiz Practice 3",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 8,
+  "quizId": "69185261dc82b90c8a92ce84",
+  "submittedAt": {
+    "$date": "2025-11-16T09:56:56.164Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6919a8bb8dc371f3d6896795"
+  },
+  "studentName": null,
+  "quizName": "Quiz 1 - ML Basics",
+  "subject": null,
+  "score": 0,
+  "totalMarks": 30,
+  "quizId": "6915a41094fdff0c11fc28f0",
+  "submittedAt": {
+    "$date": "2025-11-16T10:34:35.739Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691d2170f53231ebf426b59f"
+  },
+  "studentName": null,
+  "quizName": "Robotics Quiz_1",
+  "subject": null,
+  "score": 8,
+  "totalMarks": 2,
+  "quizId": "6919bbc12932be8ff07b70de",
+  "submittedAt": {
+    "$date": "2025-11-19T01:46:24.272Z"
+  }
+}]
