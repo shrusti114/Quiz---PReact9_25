@@ -17,7 +17,6 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
 
-  // Updated stats — includes Teachers
   const stats = [
     { label: "Students", value: 120, color: "#00bfff" },
     { label: "Teachers", value: 15, color: "#1cc88a" },
@@ -25,12 +24,17 @@ const AdminDashboard = () => {
     { label: "Subjects", value: 20, color: "#e74a3b" },
   ];
 
-  // Added Teachers in menu
+  // ✅ UPDATED: Added 3 new menu items
   const menuItems = [
     { label: "Dashboard", route: "/admin-dashboard" },
     { label: "Departments", route: "/departments" },
     { label: "Subjects", route: "/subjects" },
     { label: "Teachers", route: "/teachers" },
+  
+{ label: "Manage Users", route: "/users" },
+    { label: "Manage Quizzes", route: "/manage-quizzes" },
+    { label: "Manage Results", route: "/manage-results" },
+    { label: "Subject Management", route: "/subject-management" },
     { label: "Logout", route: "/" },
   ];
 
@@ -84,7 +88,6 @@ const AdminDashboard = () => {
 
       {/* Charts Section */}
       <section style={styles.chartsSection}>
-        {/* Bar Chart */}
         <div style={styles.chartCard}>
           <h3>Performance Overview</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -120,7 +123,6 @@ const AdminDashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Pie Chart */}
         <div style={styles.chartCard}>
           <h3>Data Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -151,7 +153,6 @@ const AdminDashboard = () => {
         </div>
       </section>
 
-      {/* Teacher Management Card Section */}
       <section style={styles.teacherSection}>
         <div style={styles.teacherCard}>
           <h3>👩‍🏫 Manage Teachers</h3>
